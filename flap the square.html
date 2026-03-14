@@ -1,19 +1,47 @@
-<script>
-const canvas = document.getElementById("screen");
-const ctx = canvas.getContext("2d");
-
-ctx.fillStyle = "red";
-ctx.fillRect(50, 50, 1, 1); // x, y, width, height
-</script>
 <!DOCTYPE html>
 <html>
+<head>
+<title>Pixel Test</title>
+</head>
+
 <body>
 
-<canvas id="screen" width="200" height="200"></canvas>
+<canvas id="screen" width="640" height="480" style="border:1px solid black;"</canvas>
 
 <script>
 const canvas = document.getElementById("screen");
 const ctx = canvas.getContext("2d");
+var pos_y = 50;
+var gravity = .98;
+var velocity = 0;
+var pipe_x = [100, 200,300, 400, 500, 600];
+var pipe_y = [Math.random]
+// draw one pixel
+ctx.fillStyle = "red";
+ctx.fillRect(50, pos_y, 10, 10);
+function clearScreen() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+function drawPipe(x, y){
+	ctx.fillRect(x, y - 640, 30, 640);
+	ctx.fillRect(x, y + 50, 30, 640);
+}
+function gameLoop(){
+	clearScreen();
+	velocity += gravity;
+	pos_y += velocity;
+	ctx.fillRect(30, pos_y, 10, 10);
+	for(let i = 0; i < pipe_x.length; i++){
+		drawPipe(pipe_x[i], 320);
+	}
+	document.addEventListener('keydown', function(event) {
+  		if (event.code === 'Space' || event.code === 'ArrowUp') {
+    			velocity = -10;
+  		}
+	});
+	requestAnimationFrame(gameLoop);
+}
+gameLoop();
 </script>
 
 </body>
