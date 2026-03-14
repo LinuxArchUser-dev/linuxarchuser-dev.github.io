@@ -14,8 +14,8 @@ const ctx = canvas.getContext("2d");
 var pos_y = 50;
 var gravity = .98;
 var velocity = 0;
-var pipe_x = [100, 200,300, 400, 500, 600];
-var pipe_y = [Math.random]
+var pipe_x = [100, 200,300, 400, 500, 600, 700];
+var pipe_y = [Math.random() * 300, Math.random() * 300, Math.random() * 300, Math.random() * 300, Math.random() * 300, Math.random() * 300, Math.random() * 300]
 // draw one pixel
 ctx.fillStyle = "red";
 ctx.fillRect(50, pos_y, 10, 10);
@@ -32,7 +32,11 @@ function gameLoop(){
 	pos_y += velocity;
 	ctx.fillRect(30, pos_y, 10, 10);
 	for(let i = 0; i < pipe_x.length; i++){
-		drawPipe(pipe_x[i], 320);
+		drawPipe(pipe_x[i], pipe_y[i]);
+		pipe_x[i] -= 1;
+		if(pipe_x[i] <= -100){
+			pipe_x[i] = 700;
+		}
 	}
 	document.addEventListener('keydown', function(event) {
   		if (event.code === 'Space' || event.code === 'ArrowUp') {
