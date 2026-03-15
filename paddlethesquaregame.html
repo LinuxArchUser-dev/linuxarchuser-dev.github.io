@@ -98,6 +98,7 @@ function gameLoop(){
 	ctx.fillRect(ball_x, ball_y, 10, 10);
 	ctx.fillText(score.toString(), 600, 50);
 	ctx.fillText(enemy_score.toString(), 680, 50);
+	ctx.fillRect(640, 0, 1, 720)
 	requestAnimationFrame(gameLoop);
 }
 gameLoop();
