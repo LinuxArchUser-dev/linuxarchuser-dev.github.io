@@ -1,0 +1,152 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pixel Test</title>
+</head>
+<body>
+
+
+<canvas id="screen" width="200" height="200" style="border:1px solid black;"</canvas>
+
+<script>
+const canvas = document.getElementById("screen");
+const ctx = canvas.getContext("2d");
+
+var map = [
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0],
+	[0,0,0,0,0,0,0,0,0,0]
+]
+
+var pos_y = 5;
+var pos_x = 0;
+var x_vel = 0;
+var y_vel = 0;
+var apple_x = 4;
+var apple_y = 5;
+var prev_pos_x = [];
+var prev_pos_y = [];
+ctx.font = "40px serif";
+var score = 0;
+function clearScreen() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+document.addEventListener('keydown', function(event) {
+  		if (event.code === 'ArrowUp' && y_vel === 0) {
+    			x_vel = 0;
+			y_vel = -1;
+  		}
+  		if (event.code === 'ArrowDown' && y_vel === 0) {
+    			x_vel = 0;
+			y_vel = 1;
+  		}
+  		if (event.code === 'ArrowLeft' && x_vel === 0) {
+    			x_vel = -1;
+			y_vel = 0;
+  		}
+  		if (event.code === 'ArrowRight' && x_vel === 0) {
+    			x_vel = 1;
+			y_vel = 0;
+  		}
+	});
+for(let i = 0; i < 100; i++){
+	prev_pos_x[i] = 0;
+	prev_pos_y[i] = 0;
+}
+function gameLoop(){
+setTimeout(() => {
+	clearScreen();
+	prev_pos_x[0] = pos_x;
+	prev_pos_y[0] = pos_y;
+	pos_x += x_vel;
+	pos_y += y_vel;
+	if(pos_y > 9){
+		window.location.href = "index.html";
+		return;
+	}
+	if(pos_y < 0){
+		window.location.href = "index.html";
+		return;
+	}
+	if(pos_x > 9){
+		window.location.href = "index.html";
+		return;
+	}
+	if(pos_x < 0){
+		window.location.href = "index.html";
+		return;
+	}
+	var swpx=[];
+	var swpy=[];
+	for(let i = 0; i < 100; i++){
+		swpx[i] = prev_pos_x[i];
+		swpy[i] = prev_pos_y[i];
+	}
+	for(let i = 0; i < 100; i++){
+			if(i > 0){
+				prev_pos_x[i] = swpx[i - 1];
+				prev_pos_y[i] = swpy[i - 1];
+			}
+	}
+	for(let i = 0; i < 10; i++)
+	{
+		for(let j =0; j < 10; j++){
+			if(apple_x === pos_x && apple_y === pos_y){
+				score++;
+				apple_x = Math.floor(Math.random() * 9);
+				apple_y = Math.floor(Math.random() * 9);
+			}
+			if(i === pos_y && j === pos_x){
+				map[j][i] = 1;
+			}
+			else if(i === apple_y && j === apple_x){
+				map[j][i] = 2; 
+			}
+			else{
+				map[j][i] = 0;
+			}
+		}
+	}
+	for(let i = 0; i < score; i++){
+		map[prev_pos_x[i]][prev_pos_y[i]] = 1;
+		if(prev_pos_x[i] === pos_x && prev_pos_y[i] === pos_y){
+			window.location.href = "index.html";	
+		}
+	}
+	for(let i = 0; i < 10; i++){
+		for(let j = 0; j < 10; j++){
+			switch(map[i][j]){
+				case 0:
+					ctx.fillStyle = "black";
+					ctx.fillRect(i *  20, j * 20, 20, 20);
+					break;
+				case 1:
+					ctx.fillStyle = "green";
+					ctx.fillRect(i *  20, j * 20, 20, 20);
+					break;
+				case 2:
+					ctx.fillStyle = "red";
+					ctx.fillRect(i *  20, j * 20, 20, 20);
+					break;
+			}
+		}
+	}
+	ctx.fillStyle = "white";
+	ctx.fillText(score.toString(), 80, 50);
+	requestAnimationFrame(gameLoop);
+	}, 100);
+}
+gameLoop();
+</script>
+
+</body>
+</html>
