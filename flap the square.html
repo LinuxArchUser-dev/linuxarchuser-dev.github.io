@@ -4,13 +4,7 @@
 <title>Pixel Test</title>
 </head>
 <body>
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-</style>
+
 
 <canvas id="screen" width="1280" height="720" style="border:1px solid black;"</canvas>
 
@@ -38,6 +32,9 @@ function drawPipe(x, y){
 document.addEventListener('touchstart', function(event) {
     velocity = -10;
 });
+document.addEventListener("touchmove", function(event) {
+  event.preventDefault();
+}, { passive: false });
 document.addEventListener('keydown', function(event) {
   		if (event.code === 'Space' || event.code === 'ArrowUp') {
     			velocity = -10;
