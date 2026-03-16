@@ -67,12 +67,24 @@ function gameLoop(){
 		ball_vel_y *= -1;
 	}
 	if(ball_x <= 10 && ball_y >= pos_y && ball_y <= pos_y + 80 && ball_vel_x < 0){
+		ball_vel_x -= 1;
 		ball_vel_x *= -1;
-		ball_vel_y += Math.random() * 1;
+		if(ball_vel_y > 0){
+			ball_vel_y += 1;
+		}
+		if(ball_vel_y < 0){
+			ball_vel_y -= 1;
+		}
 	}
 	if(ball_x >= 1270 && ball_vel_x > 0 && ball_y >= enemy_pos_y && ball_y <= enemy_pos_y + 80){
+		ball_vel_x += 1;
 		ball_vel_x *= -1;
-		ball_vel_y += Math.random() * 1;
+		if(ball_vel_y > 0){
+			ball_vel_y += 1;
+		}
+		if(ball_vel_y < 0){
+			ball_vel_y -= 1;
+		}
 	}
 	if(ball_x <= 0){
 		ball_x = 640;
@@ -84,12 +96,14 @@ function gameLoop(){
 		ball_y = 360;
 		score++;
 	}
-	if(predicted_y > enemy_pos_y && ball_vel_x > 0 && enemy_pos_y <= 720-80){
-		enemy_pos_y += 3;
-	}
-	if(predicted_y < enemy_pos_y  && ball_vel_x > 0 && enemy_pos_y >= 0){
-		enemy_pos_y -= 3;
-	}
+	//if(predicted_y > enemy_pos_y && ball_vel_x > 0 && enemy_pos_y <= 720-80){
+//		enemy_pos_y += 3;
+//	}
+//	if(predicted_y < enemy_pos_y  && ball_vel_x > 0 && enemy_pos_y >= 0){
+//		enemy_pos_y -= 3;
+//	}
+	enemy_pos_y = ball_y;
+	
 	ctx.fillStyle = "black";
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
 	ctx.fillStyle = "white";
